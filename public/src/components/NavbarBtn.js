@@ -1,5 +1,4 @@
-import "./styles/navbar-btn.css";
-import { redirectPage } from "../utils/mainFunctions";
+import { redirectPage } from "../utils/mainFunctions.js";
 
 const NavbarBtn = (items, append) => {
   navbarLayout(append);

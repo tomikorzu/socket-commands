@@ -2,7 +2,7 @@ import {
   changePageSetting,
   redirectPage,
   userAlert,
-} from "../utils/mainFunctions";
+} from "../utils/mainFunctions.js";
 import { User } from "../utils/variables.js";
 
 import NavbarBtn from "../components/NavbarBtn.js";

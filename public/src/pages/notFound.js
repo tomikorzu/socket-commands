@@ -1,4 +1,4 @@
-import { changePageSetting, redirectPage } from "../utils/mainFunctions";
+import { changePageSetting, redirectPage } from "../utils/mainFunctions.js";
 
 const NotFound = () => {
   changePageSetting("Page Not Found", "../../public/vite.svg");

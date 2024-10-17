@@ -1,5 +1,5 @@
-import { changePageSetting } from "../utils/mainFunctions";
-import { redirectPage } from "../utils/mainFunctions";
+import { changePageSetting } from "../utils/mainFunctions.js";
+import { redirectPage } from "../utils/mainFunctions.js";
 import NavbarBtn from "../components/NavbarBtn.js";
 
 const Signin = () => {
