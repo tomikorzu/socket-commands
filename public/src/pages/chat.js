@@ -18,7 +18,8 @@ const chatLayout = () => {
           id="search-input"
           placeholder="Type a Message..."
         />
-        <ul id="users"></ul>
+        <ul id="users">
+        </ul>
       </section>
       <section class="chat-container">
         <header class="header-chat">
