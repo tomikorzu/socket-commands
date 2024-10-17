@@ -1,6 +1,6 @@
 import { changePageSetting } from "../utils/mainFunctions.js";
-import { redirectPage } from "../utils/mainFunctions.js";
 import NavbarBtn from "../components/NavbarBtn.js";
+import { navigate } from "../../App.js";
 
 const Signin = () => {
   const app = document.querySelector("#app");
@@ -22,7 +22,7 @@ const Signin = () => {
   const goToSignUpBtn = document.getElementById("go-to-sign-up");
   goToSignUpBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    redirectPage("/signup", "fade-out", 500);
+    navigate("/signup");
   });
   const inputUserNameAndEmail = document.getElementById("email-username");
   const inputPassword = document.getElementById("password");

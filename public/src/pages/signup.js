@@ -1,8 +1,5 @@
-import {
-  changePageSetting,
-  redirectPage,
-  userAlert,
-} from "../utils/mainFunctions.js";
+import { changePageSetting, userAlert } from "../utils/mainFunctions.js";
+import { navigate } from "../../App.js";
 import { User } from "../utils/variables.js";
 
 import NavbarBtn from "../components/NavbarBtn.js";
@@ -35,7 +32,7 @@ const SignUp = () => {
   const goToSignInBtn = document.getElementById("go-to-sign-in");
   goToSignInBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    redirectPage("/signin", "fade-out", 500);
+    navigate("/signin");
   });
 };
 
@@ -74,7 +71,7 @@ async function submitForm(e) {
         return;
       }
 
-      redirectPage("/signin", "fade-out", 500);
+      navigate("/signin");
     } catch (error) {
       console.log("Error during signup:", error.message);
     }

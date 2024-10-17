@@ -3,22 +3,33 @@ import dotenv from "dotenv";
 import { createServer } from "http";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import { Server } from "socket.io";
 
 dotenv.config();
 
 const app = express();
 const server = createServer(app);
+const io = new Server(server);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const staticRoot = join(__dirname, "public");
 
-console.log(staticRoot);
-
 app.use(express.static(staticRoot));
 
-app.get("/", (req, res) => {
-  res.sendFile(join(__dirname, "public", "./index.html"));
+const indexHandler = (req, res) => {
+  res.sendFile(join(staticRoot, "index.html"));
+};
+
+app.get(/.?/, indexHandler);
+
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+  
 });
 
 server.listen(process.env.PORT, () => {

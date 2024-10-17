@@ -265,7 +265,7 @@ button {
 
 /* Animations */
 .fade-in {
-  animation: fadeIn 0.4s forwards;
+  animation: fadeIn 0.8s forwards;
 }
 .fade-out {
   animation: fadeOut 0.4s forwards;

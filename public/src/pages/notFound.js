@@ -1,4 +1,5 @@
-import { changePageSetting, redirectPage } from "../utils/mainFunctions.js";
+import { changePageSetting } from "../utils/mainFunctions.js";
+import { navigate } from "../../App.js";
 
 const NotFound = () => {
   changePageSetting("Page Not Found", "../../public/vite.svg");
@@ -16,7 +17,7 @@ const NotFound = () => {
   const returnHomeBtn = document.getElementById("return-home-btn");
   returnHomeBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    redirectPage("/", "fade-out", 500);
+    navigate("/");
   });
 };
 

@@ -9,10 +9,27 @@ const routes = {
   "/signup": SignUp,
 };
 
-const routing = () => {
-  const path = location.pathname;
-  const page = routes[path] || NotFound; 
+const routerPage = (path) => {
+  const page = routes[path] || NotFound;
   page();
 };
 
-document.addEventListener("DOMContentLoaded", routing);
+export const navigate = (path) => {
+  history.pushState({}, "", path);
+  routerPage(path);
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  routerPage(location.pathname);
+
+  document.querySelectorAll("button[data-path]").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const path = e.target.getAttribute("data-path");
+      navigate(path);
+    });
+  });
+});
+
+window.addEventListener("popstate", () => {
+  routerPage(location.pathname);
+});

@@ -1,4 +1,4 @@
-import { redirectPage } from "../utils/mainFunctions.js";
+import { navigate } from "../../App.js";
 
 const NavbarBtn = (items, append) => {
   navbarLayout(append);
@@ -40,7 +40,7 @@ const NavbarBtn = (items, append) => {
   const navbarLinkBtn = document.querySelectorAll(".navbar-link");
   navbarLinkBtn.forEach((btn, index) => {
     btn.addEventListener("click", () => {
-      redirectPage(items[index].url, "fade-out", 500);
+      navigate(items[index].url);
     });
   });
 };
