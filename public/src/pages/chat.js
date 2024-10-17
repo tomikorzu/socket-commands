@@ -6,29 +6,31 @@ const Chat = () => {
   const app = document.getElementById("app");
 
   chatLayout();
-
-  const chatMain = document.querySelector(".chat-main");
-
-  NavbarBtn(
-    [
-      { item: "Home", url: "/" },
-      { item: "Start", url: "/signin" },
-      { item: "Sign Up", url: "/signup" },
-      { item: "Chat", url: "/chat", active: true },
-    ],
-    chatMain
-  );
 };
 
 const chatLayout = () => {
   app.innerHTML = `<main class="fade-in chat-main">
+      <section class="people-container">
+        <h1>Chats</h1>
+        <input
+          type="search"
+          name="search"
+          id="search-input"
+          placeholder="Type a Message..."
+        />
+        <ul id="users"></ul>
+      </section>
       <section class="chat-container">
         <header class="header-chat">
-          <img src="../assets/img/gm2.jpg" alt="User Image" id="user-img" />
-          <h3 id="user-name">User</h3>
-          <span id="last-time-connected"></span>
+          <img src="/src/assets/img/gm2.jpg" alt="User Image" id="user-img" />
+          <div>
+            <h3 id="user-name">Tomas Korzusehec de calculta</h3>
+            <span id="last-time-connected">Online</span>
+          </div>
         </header>
-        <ul id="chat-ul">Message</ul>
+        <ul id="chat-ul">
+          Message
+        </ul>
         <form id="chat-form">
           <input type="text" placeholder="Type a message..." id="chat-input" />
           <button type="submit" id="chat-btn">Send</button>
