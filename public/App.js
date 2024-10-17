@@ -2,11 +2,13 @@ import Home from "./src/pages/home.js";
 import SignIn from "./src/pages/signing.js";
 import SignUp from "./src/pages/signup.js";
 import NotFound from "./src/pages/notFound.js";
+import Chat from "./src/pages/chat.js";
 
 const routes = {
   "/": Home,
   "/signin": SignIn,
   "/signup": SignUp,
+  "/chat": Chat,
 };
 
 const routerPage = (path) => {

@@ -23,6 +23,7 @@ const SignUp = () => {
         url: "/signup",
         active: true,
       },
+      { item: "Chat", url: "/chat" },
     ],
     backDrop
   );

@@ -1,4 +1,3 @@
-import { navigate } from "../../App.js";
 const body = document.querySelector("body");
 
 export function changePageSetting(title, iconUrl) {

@@ -15,6 +15,7 @@ const Home = () => {
       { item: "Home", url: "/", active: true },
       { item: "Start", url: "/signin" },
       { item: "Sign Up", url: "/signup" },
+      { item: "Chat", url: "/chat" },
     ],
     backDrop
   );

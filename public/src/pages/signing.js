@@ -16,6 +16,7 @@ const Signin = () => {
       { item: "Home", url: "/" },
       { item: "Sign In", url: "/signin", active: true },
       { item: "Sign Up", url: "/signup" },
+      { item: "Chat", url: "/chat" },
     ],
     backDrop
   );
