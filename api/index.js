@@ -4,8 +4,8 @@ import { createServer } from "http";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
-import { connectDB } from "./config/db.js";
-import authRoutes from "./routes/authRoutes.js";
+import { connectDB } from "../config/db.js";
+import authRoutes from "../routes/authRoutes.js";
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ const io = new Server(server);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const staticRoot = join(__dirname, "public");
+const staticRoot = join(__dirname, "../public");
 
 app.use(express.static(staticRoot));
 app.use(express.json());
