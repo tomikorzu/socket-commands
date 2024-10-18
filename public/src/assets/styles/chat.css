@@ -42,10 +42,10 @@
 .people-container h1 {
   font-size: 22px;
   color: var(--page-title-color);
-  padding: 10px 15px 0;
+  padding: 10px 20px 0;
 }
 .people-container input {
-  width: 80%;
+  width: 90%;
   padding: 10px;
   border: none;
   border-radius: 5px;
