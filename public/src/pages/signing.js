@@ -29,48 +29,42 @@ const Signin = () => {
     navigate("/signup");
   });
 
-  const inputUserNameAndEmail = document.getElementById("email-username");
+  const inputUserName = document.getElementById("username");
   const inputPassword = document.getElementById("password");
-  const submitSigninBtn = document.getElementById("submit-signin-btn");
+  const signInForm = document.getElementById("sign-in-form");
 
-  submitSigninBtn.addEventListener("click", async (e) => {
+  signInForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const user = new User(
-      inputUserNameAndEmail.value,
-      inputUserNameAndEmail.value,
-      inputPassword.value,
-      ""
-    );
+    if (!inputUserName.value || !inputPassword.value) {
+      userAlert("Alert", "Please enter username and password");
+      return;
+    }
 
-    if (
-      user.verifyUserName(inputUserNameAndEmail.value) &&
-      user.verifyPassword(inputPassword.value)
-    ) {
-      try {
-        const response = await fetch("http://localhost:5000/api/auth/signin", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: inputUserNameAndEmail.value,
-            password: inputPassword.value,
-          }),
-        });
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/signin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: inputUserName.value,
+          password: inputPassword.value,
+        }),
+      });
 
-        if (response.ok) {
-          navigate("/chat");
-        } else {
-          const errorData = await response.json();
-          userAlert(
-            "Alert",
-            errorData.message || "Invalid username or password"
-          );
-        }
-      } catch (error) {
-        console.log("Error during sign-in:", error.message);
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Sign-in successful:", data);
+        navigate("/chat");
       }
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.log("Error Data:", errorData);
+        userAlert("Alert", errorData.message || "Invalid username or password");
+      }
+    } catch (error) {
+      console.log("Error during sign-in:", error.message);
     }
   });
 };
@@ -85,8 +79,8 @@ const signinLayout = () => {
             <input
               type="text"
               class="input-form input"
-              id="email-username"
-              placeholder="Email or User Name"
+              id="username"
+              placeholder="User Name"
             />
             <input
               type="password"

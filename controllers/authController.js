@@ -47,22 +47,21 @@ export const signin = async (req, res) => {
 
   try {
     const db = getDB();
-    const user = await db.collection("users").findOne({
-      $or: [{ username }, { email: username }],
-    });
+    const user = await db.collection("users").findOne({ username });
 
-    if (!user || user.password !== password) {
-      return res.status(400).json({ message: "Invalid credentials" });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid username" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      return res.status(400).json({ message: "Invalid password" });
     }
 
-    res
-      .status(200)
-      .json({ message: "User signed in successfully" }, { userID: user._id });
+    res.status(200).json({
+      message: "User signed in successfully",
+      userID: user._id,
+    });
   } catch (error) {
     console.error("Error signing in", error);
     res.status(500).json({ message: "Error signing in" });
