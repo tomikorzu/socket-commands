@@ -60,10 +60,6 @@
 .no-users {
   text-align: center;
   margin-top: 10px;
-  /* position: absolute; */
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
 }
 #new-friend {
   padding: 10px;
@@ -130,7 +126,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 250px;
+  max-width: 210px;
 }
 .last-message {
   color: var(--person-name-color);

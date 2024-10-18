@@ -1,4 +1,4 @@
-import { changePageSetting } from "./mainFunctions.js";
+import { changePageSetting } from "../utils/mainFunctions.js";
 
 const socket = io();
 
@@ -51,8 +51,8 @@ const users = [
     name: "Tomas Korzusehec de calculta",
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
-    lastMsgTime: "12:00",
-    unreadMsg: 0,
+    lastMsgTime: "12/02/24",
+    unreadMsg: 120,
   },
   {
     name: "Rodrigez",
@@ -91,7 +91,7 @@ const users = [
   },
 ];
 
-export const chatFunctions = () => {
+export const asideMenu = () => {
   const people = document.getElementById("users");
   updateUsers(users, people);
   const searchInput = document.getElementById("search-input");

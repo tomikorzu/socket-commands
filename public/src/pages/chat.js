@@ -1,13 +1,14 @@
 import { changePageSetting } from "../utils/mainFunctions.js";
-import NavbarBtn from "../components/NavbarBtn.js";
-import { chatFunctions } from "../utils/socket.js";
+import { asideMenu } from "../chat/asideMenu.js";
+import { realTimeChat } from "../chat/realTimeChat.js";
 
 const Chat = () => {
   changePageSetting("Chat", "../../public/vite.svg");
   const app = document.getElementById("app");
 
   chatLayout();
-  chatFunctions();
+  asideMenu();
+  realTimeChat();
 };
 
 const chatLayout = () => {
