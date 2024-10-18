@@ -1,11 +1,13 @@
 import { changePageSetting } from "../utils/mainFunctions.js";
 import NavbarBtn from "../components/NavbarBtn.js";
+import { chatFunctions } from "../utils/socket.js";
 
 const Chat = () => {
   changePageSetting("Chat", "../../public/vite.svg");
   const app = document.getElementById("app");
 
   chatLayout();
+  chatFunctions();
 };
 
 const chatLayout = () => {
@@ -16,9 +18,10 @@ const chatLayout = () => {
           type="search"
           name="search"
           id="search-input"
-          placeholder="Type a Message..."
+          placeholder="Search a friend..."
         />
         <ul id="users">
+        
         </ul>
       </section>
       <section class="chat-container">
