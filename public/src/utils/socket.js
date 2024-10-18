@@ -89,99 +89,57 @@ const users = [
 
 export const chatFunctions = () => {
   const people = document.getElementById("users");
-  if (users.length > 0) {
-    users.map((user) => {
-      const newUser = new Person(
-        user.name,
-        user.img,
-        user.lastMsg,
-        user.lastMsgTime,
-        user.unreadMsg
-      );
-      if (user.unreadMsg > 99) {
-        newUser.unreadMsg = "99";
-      } else if (user.unreadMsg <= 0) {
-        newUser.unreadMsg = "";
-      }
-      const unreadMsg = document.querySelectorAll(".unread-messages");
-      unreadMsg.forEach((msg) => {
-        if (msg.textContent === "") {
-          msg.style.display = "none";
-        }
-      });
-      const li = newUser.createPersonLayout();
-      people.appendChild(li);
-    });
-  } else {
-    people.innerHTML = `<h2 class="fade-in no-users">No people here!</h2>
-    <button id="new-friend">Add a new friend</button>`;
-  }
-
+  updateUsers(users, people);
   const searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("input", (e) => searchPerson(e));
+  searchInput.addEventListener("input", (e) =>
+    searchPerson(e.target.value.toLowerCase(), people)
+  );
 };
 
-class Person {
-  constructor(name, img, lastMsg, lastMsgTime, unreadMsg) {
-    this.name = name;
-    this.img = img;
-    this.lastMsg = lastMsg;
-    this.lastMsgTime = lastMsgTime;
-    this.unreadMsg = unreadMsg;
-  }
-  createPersonLayout() {
-    const li = document.createElement("li");
-    li.innerHTML = `
-            <img
-              src="${this.img}"
-              alt="User Image"
-              class="person-image"
-            />
-            <div class="message-data">
-              <h3 class="person-name">${this.name}</h3>
-              <span class="last-message">${this.lastMsg}</span>
-            </div>
-            <div>
-              <span class="last-time">${this.lastMsgTime}</span>
-              <span class="unread-messages">${this.unreadMsg}</span>
-            </div>
-          `;
-    return li;
-  }
-}
+const createUserLayout = (user) => {
+  const li = document.createElement("li");
 
-const searchPerson = (e) => {
-  const searchValue = e.target.value.toLowerCase();
+  let unreadMsgValue = user.unreadMsg;
+  if (unreadMsgValue <= 0) {
+    unreadMsgValue = "";
+  }
+
+  li.innerHTML = `
+      <img src="${user.img}" alt="User Image" class="person-image" />
+      <div class="message-data">
+        <h3 class="person-name">${user.name}</h3>
+        <span class="last-message">${user.lastMsg}</span>
+      </div>
+      <div>
+        <span class="last-time">${user.lastMsgTime}</span>
+        <span class="unread-messages">${unreadMsgValue}</span>
+      </div>`;
+
+  const unreadMsg = li.querySelector(".unread-messages");
+  if (unreadMsg.textContent === "") {
+    unreadMsg.style.display = "none";
+  }
+
+  return li;
+};
+
+const updateUsers = (userList, peopleElement) => {
+  peopleElement.innerHTML = "";
+  if (userList.length > 0) {
+    userList.forEach((user) => {
+      if (user.unreadMsg > 99) user.unreadMsg = "99";
+      const li = createUserLayout(user);
+      peopleElement.appendChild(li);
+    });
+  } else {
+    peopleElement.innerHTML = `<h2 class="fade-in no-users">No people here!</h2>
+    <button id="new-friend">Add a new friend</button>`;
+  }
+};
+
+const searchPerson = (searchValue, peopleElement) => {
   const filteredUsers = users.filter((user) =>
     user.name.toLowerCase().includes(searchValue)
   );
-  const people = document.getElementById("users");
-  people.innerHTML = "";
-
-  if (filteredUsers.length > 0) {
-    filteredUsers.map((user) => {
-      const newUser = new Person(
-        user.name,
-        user.img,
-        user.lastMsg,
-        user.lastMsgTime,
-        user.unreadMsg
-      );
-      if (user.unreadMsg > 99) {
-        newUser.unreadMsg = "99";
-      } else if (user.unreadMsg <= 0) {
-        newUser.unreadMsg = "";
-      }
-      const unreadMsg = document.querySelectorAll(".unread-messages");
-      unreadMsg.forEach((msg) => {
-        if (msg.textContent === "") {
-          msg.style.display = "none";
-        }
-      });
-      const li = newUser.createPersonLayout();
-      people.appendChild(li);
-    });
-  } else {
-    people.innerHTML = `<h2 class="fade-in no-users">No people found!</h2>`;
-  }
+  updateUsers(filteredUsers, peopleElement);
 };
