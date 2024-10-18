@@ -3,21 +3,16 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const uri = process.env.MONGO_URI;
-const client = new MongoClient(uri, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client = new MongoClient(process.env.MONGO_URI);
 
-async function connectDB() {
+export const connectDB = async () => {
   try {
     await client.connect();
     console.log("Connected to MongoDB");
-    const db = client.db("EduLink");
-    return db;
   } catch (error) {
     console.error("Error connecting to the database", error);
+    process.exit(1);
   }
-}
+};
 
-export default connectDB;
+export const getDB = () => client.db("EduLink");

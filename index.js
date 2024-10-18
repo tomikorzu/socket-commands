@@ -5,6 +5,7 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +18,9 @@ const __dirname = dirname(__filename);
 const staticRoot = join(__dirname, "public");
 
 app.use(express.static(staticRoot));
+app.use(express.json());
+
+app.use("/api/auth", authRoutes);
 
 const indexHandler = (req, res) => {
   res.sendFile(join(staticRoot, "index.html"));
