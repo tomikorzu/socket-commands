@@ -4,6 +4,7 @@ import { createServer } from "http";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
+import connectDB from "./config/db.js";
 
 dotenv.config();
 
@@ -31,6 +32,10 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(process.env.PORT, () => {
-  console.log(`Server is running on url http://localhost:${process.env.PORT}`);
+connectDB().then(() => {
+  server.listen(process.env.PORT, () => {
+    console.log(
+      `Server is running on url http://localhost:${process.env.PORT}`
+    );
+  });
 });
