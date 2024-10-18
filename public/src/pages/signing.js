@@ -1,6 +1,7 @@
 import { changePageSetting } from "../utils/mainFunctions.js";
 import NavbarBtn from "../components/NavbarBtn.js";
 import { navigate } from "../../App.js";
+import { User } from "../utils/variables.js";
 
 const Signin = () => {
   const app = document.querySelector("#app");
@@ -20,21 +21,51 @@ const Signin = () => {
     ],
     backDrop
   );
+
   const goToSignUpBtn = document.getElementById("go-to-sign-up");
   goToSignUpBtn.addEventListener("click", (e) => {
     e.preventDefault();
     navigate("/signup");
   });
+
   const inputUserNameAndEmail = document.getElementById("email-username");
   const inputPassword = document.getElementById("password");
   const submitSigninBtn = document.getElementById("submit-signin-btn");
-  submitSigninBtn.addEventListener("click", (e) => {
+
+  submitSigninBtn.addEventListener("click", async (e) => {
     e.preventDefault();
+
+    const user = new User(
+      inputUserNameAndEmail.value,
+      inputUserNameAndEmail.value,
+      inputPassword.value,
+      ""
+    );
+
     if (
-      formFunctions.verifyUserName(inputUserNameAndEmail.value) &&
-      formFunctions.verifyPassword(inputPassword.value)
+      user.verifyUserName(inputUserNameAndEmail.value) &&
+      user.verifyPassword(inputPassword.value)
     ) {
-      console.log("All inputs are correct");
+      try {
+        const response = await fetch("http://localhost:5000/signin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            usernameOrEmail: inputUserNameAndEmail.value,
+            password: inputPassword.value,
+          }),
+        });
+
+        if (response.ok) {
+          navigate("/chat");
+        } else if (response.status === 401) {
+          userAlert("Alert", "Invalid username or password");
+        }
+      } catch (error) {
+        console.log("Error during sign-in:", error.message);
+      }
     }
   });
 };
@@ -42,40 +73,40 @@ const Signin = () => {
 const signinLayout = () => {
   app.innerHTML = `
     <div class="back-drop fade-in">
-          <main class="main-center">
-            <form class="form-class form" id="sign-in-form">
-            <h2 class="form-title">Sign In</h2>
-            <div class="inputs-container">
+      <main class="main-center">
+        <form class="form-class form" id="sign-in-form">
+          <h2 class="form-title">Sign In</h2>
+          <div class="inputs-container">
             <input
-            type="text"
-            class="input-form input"
-            id="email-username"
-            placeholder="Email or User Name"
+              type="text"
+              class="input-form input"
+              id="email-username"
+              placeholder="Email or User Name"
             />
             <input
-            type="password"
-            class="input-form input"
-            id="password"
-            placeholder="Password"
+              type="password"
+              class="input-form input"
+              id="password"
+              placeholder="Password"
             />
-            </div>
-            <button
-                type="submit"
-                id="submit-signin-btn"
-                class="accept-btn form-btn btn"
-                >
-                Submit
-                </button>
-                <p class="already-account-p">
-                Aleready you don't have an account?
-                <button class="already-account-btn" id="go-to-sign-up">
-                Sign up
-                </button>
-                </p>
-                </form>
-                </main>
-                </div>
-                `;
+          </div>
+          <button
+            type="submit"
+            id="submit-signin-btn"
+            class="accept-btn form-btn btn"
+          >
+            Submit
+          </button>
+          <p class="already-account-p">
+            Aleready you don't have an account?
+            <button class="already-account-btn" id="go-to-sign-up">
+              Sign up
+            </button>
+          </p>
+        </form>
+      </main>
+    </div>
+  `;
 };
 
 export default Signin;

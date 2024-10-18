@@ -4,7 +4,7 @@ import { createServer } from "http";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 import { Server } from "socket.io";
-import connectDB from "./config/db.js";
+import { connectDB } from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
