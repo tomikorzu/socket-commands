@@ -1,4 +1,8 @@
+import { changePageSetting } from "./mainFunctions.js";
+
 const socket = io();
+
+let totalUnreadMsg = 0;
 
 const users = [
   {
@@ -6,28 +10,28 @@ const users = [
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
     lastMsgTime: "12:00",
-    unreadMsg: 14,
+    unreadMsg: 0,
   },
   {
     name: "Rodrigez",
     img: "/src/assets/img/me.jpeg",
     lastMsg: "Puto",
     lastMsgTime: "12/02/24",
-    unreadMsg: 1,
+    unreadMsg: 0,
   },
   {
     name: "Luis",
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
     lastMsgTime: "12:00",
-    unreadMsg: 2,
+    unreadMsg: 0,
   },
   {
     name: "Tomas",
     img: "/src/assets/img/me.jpeg",
     lastMsg: "Puto",
     lastMsgTime: "12/02/24",
-    unreadMsg: 30,
+    unreadMsg: 0,
   },
   {
     name: "Korzusehec",
@@ -41,14 +45,14 @@ const users = [
     img: "/src/assets/img/me.jpeg",
     lastMsg: "Puto",
     lastMsgTime: "12/02/24",
-    unreadMsg: 2,
+    unreadMsg: 0,
   },
   {
     name: "Tomas Korzusehec de calculta",
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
     lastMsgTime: "12:00",
-    unreadMsg: 5000,
+    unreadMsg: 0,
   },
   {
     name: "Rodrigez",
@@ -62,28 +66,28 @@ const users = [
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
     lastMsgTime: "12:00",
-    unreadMsg: 104,
+    unreadMsg: 0,
   },
   {
     name: "Tomas",
     img: "/src/assets/img/me.jpeg",
     lastMsg: "Puto",
     lastMsgTime: "12/02/24",
-    unreadMsg: 102,
+    unreadMsg: 0,
   },
   {
     name: "Korzusehec",
     img: "/src/assets/img/gm2.jpg",
     lastMsg: "Hello",
     lastMsgTime: "12:00",
-    unreadMsg: 20,
+    unreadMsg: 0,
   },
   {
     name: "de calculta",
     img: "/src/assets/img/me.jpeg",
     lastMsg: "Puto",
     lastMsgTime: "12/02/24",
-    unreadMsg: 10,
+    unreadMsg: 0,
   },
 ];
 
@@ -94,15 +98,14 @@ export const chatFunctions = () => {
   searchInput.addEventListener("input", (e) =>
     searchPerson(e.target.value.toLowerCase(), people)
   );
+
+  changePageTitle();
 };
 
 const createUserLayout = (user) => {
   const li = document.createElement("li");
 
-  let unreadMsgValue = user.unreadMsg;
-  if (unreadMsgValue <= 0) {
-    unreadMsgValue = "";
-  }
+  let unreadMsgValue = getUnreadMessages(user.unreadMsg);
 
   li.innerHTML = `
       <img src="${user.img}" alt="User Image" class="person-image" />
@@ -142,4 +145,24 @@ const searchPerson = (searchValue, peopleElement) => {
     user.name.toLowerCase().includes(searchValue)
   );
   updateUsers(filteredUsers, peopleElement);
+};
+
+const getUnreadMessages = (unreadMsg) => {
+  if (unreadMsg <= 0) return "";
+  if (unreadMsg > 99) return "99";
+  totalUnreadMsg += unreadMsg;
+  return unreadMsg;
+};
+
+const changePageTitle = () => {
+  if (totalUnreadMsg < 1) {
+    changePageSetting("Edulink", "/src/assets/img/huergo.png");
+  } else if (totalUnreadMsg >= 99) {
+    changePageSetting(`(99+) Edulink`, "/src/assets/img/huergo.png");
+  } else {
+    changePageSetting(
+      `(${totalUnreadMsg}) Edulink`,
+      "/src/assets/img/huergo.png"
+    );
+  }
 };
