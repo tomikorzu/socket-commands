@@ -1,4 +1,5 @@
 import { getDB } from "../config/db.js";
+import bcrypt from "bcrypt";
 
 export const signup = async (req, res) => {
   const { username, email, password, fullname } = req.body;
@@ -17,10 +18,12 @@ export const signup = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const newUser = {
       username,
       email,
-      password,
+      password: hashedPassword,
       fullname,
     };
 
@@ -44,9 +47,16 @@ export const signin = async (req, res) => {
 
   try {
     const db = getDB();
-    const user = await db.collection("users").findOne({ username });
+    const user = await db.collection("users").findOne({
+      $or: [{ username }, { email: username }],
+    });
 
     if (!user || user.password !== password) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 

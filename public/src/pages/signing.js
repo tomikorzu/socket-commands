@@ -2,6 +2,7 @@ import { changePageSetting } from "../utils/mainFunctions.js";
 import NavbarBtn from "../components/NavbarBtn.js";
 import { navigate } from "../../App.js";
 import { User } from "../utils/variables.js";
+import { userAlert } from "../utils/mainFunctions.js";
 
 const Signin = () => {
   const app = document.querySelector("#app");
@@ -47,21 +48,25 @@ const Signin = () => {
       user.verifyPassword(inputPassword.value)
     ) {
       try {
-        const response = await fetch("http://localhost:5000/signin", {
+        const response = await fetch("http://localhost:5000/api/auth/signin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            usernameOrEmail: inputUserNameAndEmail.value,
+            username: inputUserNameAndEmail.value,
             password: inputPassword.value,
           }),
         });
 
         if (response.ok) {
           navigate("/chat");
-        } else if (response.status === 401) {
-          userAlert("Alert", "Invalid username or password");
+        } else {
+          const errorData = await response.json();
+          userAlert(
+            "Alert",
+            errorData.message || "Invalid username or password"
+          );
         }
       } catch (error) {
         console.log("Error during sign-in:", error.message);
